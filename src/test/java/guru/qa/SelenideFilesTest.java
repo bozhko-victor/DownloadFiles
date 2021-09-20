@@ -1,12 +1,7 @@
 package guru.qa;
 
 import com.codeborne.pdftest.PDF;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.xlstest.XLS;
-import org.checkerframework.checker.units.*;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -51,5 +46,17 @@ public class SelenideFilesTest extends TestBase {
         assertThat(parsed.author).contains("user");
     }
 
+         @Test
+    void downloadXLSFileTest() throws Exception {
+        XLS result;
+        try (InputStream stream = getClass().getClassLoader().
+                getResourceAsStream("excel.xltx")) {
+            result = new XLS(stream);
+        }
+        assertThat(result.excel.getSheetAt(0).getRow(5).
+                getCell(1).getStringCellValue()).
+                contains("КОД ТОВАРА");
+
+    }
 
 }
