@@ -2,6 +2,7 @@ package guru.qa;
 
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
+import net.lingala.zip4j.ZipFile;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -56,7 +57,19 @@ public class SelenideFilesTest extends TestBase {
         assertThat(result.excel.getSheetAt(0).getRow(5).
                 getCell(1).getStringCellValue()).
                 contains("КОД ТОВАРА");
-
+    }
+    @Test
+    public void checkZipFileTest() throws Exception {
+        String zipPassword = "password";
+        ZipFile zipFile = new ZipFile(new File("src/test/resources/difficult.zip"));
+        if (zipFile.isEncrypted())
+        {
+            zipFile.setPassword(zipPassword.toCharArray());
+        }
+        assertThat(zipFile.getFileHeaders().toString()).containsIgnoringCase("Simple");
+        System.out.println();
     }
 
 }
+
+
